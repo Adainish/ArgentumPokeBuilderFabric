@@ -1,4 +1,6 @@
 package io.github.adainish.argentumpokebuilderfabric.util;
 
-public class SpeciesHelper {
+public class SpeciesHelper
+{
+
 }

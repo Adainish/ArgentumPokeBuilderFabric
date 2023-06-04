@@ -35,7 +35,7 @@ dependencies {
     modImplementation(fabricApi.module("fabric-command-api-v2", "0.75.1+1.19.2"))
     modImplementation("dev.architectury", "architectury-fabric", "6.5.69")
     modImplementation("com.cobblemon:fabric:1.3.1+1.19.2-SNAPSHOT")
-    implementation("ca.landonjw.gooeylibs:fabric:3.0.0-1.19.2-20230412.185927-14")
+
     modImplementation(fileTree("libs"))
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
