@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "ArgentumPokeBuilderFabric",
+  "version": "${version}",
+  "name": "ArgentumPokeBuilderFabric",
+  "description": "",
+  "authors": [],
+  "contact": {
+    "repo": "https://github.com/adainish/ArgentumPokeBuilderFabric"
+  },
+  "license": "All-Rights-Reserved",
+  "icon": "assets/ArgentumPokeBuilderFabric/icon.png",
+  "environment": "server",
+  "entrypoints": {
+    "client": [
+      "io.github.adainish.argentumpokebuilderfabric.client.ArgentumPokeBuilderFabricClient"
+    ],
+    "main": [
+      "io.github.adainish.argentumpokebuilderfabric.ArgentumPokeBuilderFabric"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
