@@ -72,6 +72,9 @@ public class Util
 
     public static ArrayList<String> pokemonLore(Pokemon p) {
         ArrayList<String> list = new ArrayList<>();
+        list.add("&7Friendship: &e" + p.getFriendship());
+        if (p.getShiny())
+            list.add("&6&lShiny");
         list.add("&7Ball:&e " + p.getCaughtBall().getName().getPath().replace("_", " "));
         list.add("&7Ability:&e " + p.getAbility().getName().toLowerCase());
         list.add("&7Nature:&e " + p.getNature().getDisplayName().replace("cobblemon", "").replaceAll("\\.", "").replace("nature", ""));
@@ -102,6 +105,7 @@ public class Util
                 .replace("%spd%", String.valueOf(getIntFromStat(Stats.SPECIAL_DEFENCE, p, false)))
                 .replace("%spe%", String.valueOf(getIntFromStat(Stats.SPEED, p, false)))
         );
+
 
         return list;
     }

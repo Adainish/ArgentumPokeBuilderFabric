@@ -11,6 +11,8 @@ public class PokeBuilderDataManager
     public HashMap<BuilderType, Integer> baseAttributeCosts = new HashMap<>();
     public HashMap<BuilderType, ItemStack> attributeIcons = new HashMap<>();
 
+    public HashMap<BuilderType, Boolean> attributeEnabledStatus = new HashMap<>();
+
     public PokeBuilderDataManager()
     {
         init();
@@ -23,6 +25,14 @@ public class PokeBuilderDataManager
                 if (builderType.equals(BuilderType.UNDECIDED))
                     continue;
                 baseAttributeCosts.put(builderType, 100);
+            }
+        }
+        if (attributeEnabledStatus.isEmpty())
+        {
+            for (BuilderType builderType : BuilderType.values()) {
+                if (builderType.equals(BuilderType.UNDECIDED))
+                    continue;
+                attributeEnabledStatus.put(builderType, true);
             }
         }
         if (attributeIcons.isEmpty())
