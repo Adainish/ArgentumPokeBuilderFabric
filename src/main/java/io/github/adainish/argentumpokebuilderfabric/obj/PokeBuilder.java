@@ -92,14 +92,18 @@ public class PokeBuilder
         return maxInt;
     }
 
+    public int getLeftoverSubstractableEVSAmount()
+    {
+        return selectedPokemon.getEvs().getOrDefault(selectedStat);
+    }
+
     public int getLeftOverEVSAmount()
     {
         AtomicInteger amount = new AtomicInteger();
 
-        int max = getMaxAmount();
-
+        int max = 510;
         selectedPokemon.getEvs().forEach(entry -> {
-            amount.addAndGet(entry.getValue());
+                amount.addAndGet(entry.getValue());
         });
 
 
@@ -107,31 +111,18 @@ public class PokeBuilder
     }
 
     public int getMaxNegativeAdjustment() {
-        int maxType = -getMaxAmount();
-
         int newStatMax = 0;
 
         switch (builderType) {
             case FRIENDSHIP -> {
-                if (selectedPokemon.getFriendship() >= -maxType)
-                    return 0;
-                newStatMax = (selectedPokemon.getFriendship() - maxType);
-                break;
+                return selectedPokemon.getFriendship();
             }
 
             case EVS -> {
-                if (selectedPokemon.getEvs().getOrDefault(selectedStat) >= -maxType)
-                    return 0;
-                newStatMax = (selectedPokemon.getEvs().getOrDefault(selectedStat) - maxType);
-                if (newStatMax < -getLeftOverEVSAmount())
-                    newStatMax = -getLeftOverEVSAmount();
-                break;
+                return getLeftoverSubstractableEVSAmount();
             }
             case IVS -> {
-                if (selectedPokemon.getIvs().getOrDefault(selectedStat) >= -maxType)
-                    return 0;
-                newStatMax = (selectedPokemon.getIvs().getOrDefault(selectedStat) - maxType);
-                break;
+                return selectedPokemon.getIvs().getOrDefault(selectedStat);
             }
         }
 
@@ -177,7 +168,7 @@ public class PokeBuilder
     {
         if ( (this.amount - parsed ) > ( -getMaxNegativeAdjustment()))
             this.amount -= parsed;
-        else this.amount = getMaxNegativeAdjustment();
+        else this.amount = -getMaxNegativeAdjustment();
     }
 
     public void increaseAmount(int parsed)
@@ -553,6 +544,11 @@ public class PokeBuilder
                 .lore(Util.formattedArrayList(Arrays.asList("&7Current amount: &b%amount%".replace("%amount%", String.valueOf(amount)))))
                 .display(new ItemStack(Items.GREEN_DYE))
                 .onClick(b -> {
+                    if (this.amount == 0)
+                    {
+                        assignedPlayer.sendMessage("&eYou can't edit a Pokemon's stats with a total of 0!");
+                        return;
+                    }
                     UIManager.openUIForcefully(b.getPlayer(), purchaseGUI());
                 })
                 .build();
