@@ -1,10 +1,14 @@
 package io.github.adainish.argentumpokebuilderfabric.managers;
 
 import com.cobblemon.mod.common.CobblemonItems;
+import com.cobblemon.mod.common.api.pokemon.PokemonSpecies;
+import com.cobblemon.mod.common.pokemon.Species;
 import io.github.adainish.argentumpokebuilderfabric.enumerations.BuilderType;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class PokeBuilderDataManager
 {
@@ -12,6 +16,8 @@ public class PokeBuilderDataManager
     public HashMap<BuilderType, ItemStack> attributeIcons = new HashMap<>();
 
     public HashMap<BuilderType, Boolean> attributeEnabledStatus = new HashMap<>();
+
+    public List<String> blacklistedSpecies = new ArrayList<>();
 
     public PokeBuilderDataManager()
     {
@@ -41,6 +47,13 @@ public class PokeBuilderDataManager
                 if (builderType.equals(BuilderType.UNDECIDED))
                     continue;
                 attributeIcons.put(builderType, new ItemStack(CobblemonItems.POKE_BALL.get()));
+            }
+        }
+        if (this.blacklistedSpecies.isEmpty())
+        {
+            for (Species species: PokemonSpecies.INSTANCE.getImplemented()) {
+                if (species.create(1).isLegendary())
+                    blacklistedSpecies.add(species.getResourceIdentifier().toString());
             }
         }
     }

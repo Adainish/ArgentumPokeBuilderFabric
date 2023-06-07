@@ -60,6 +60,15 @@ public class Command
                                             int amount = IntegerArgumentType.getInteger(cc, "amount");
                                             if (player != null) {
                                                 player.tokenCount += amount;
+                                                player.sendMessage("&aYou received %tokens% tokens, you now have %amount% tokens"
+                                                        .replace("%tokens%", String.valueOf(amount))
+                                                        .replace("%amount%", String.valueOf(player.tokenCount))
+                                                );
+                                                Util.send(cc.getSource(), "&eAdded %amount% tokens to %player%, their new token balance is %balance%"
+                                                        .replace("%amount%", String.valueOf(amount))
+                                                        .replace("%player%", serverPlayer.getName().getString())
+                                                        .replace("%balance%", String.valueOf(player.tokenCount))
+                                                );
                                                 player.save();
                                             } else {
                                                 Util.send(cc.getSource(), "&cUnable to load provided pokebuilder data...");
@@ -89,6 +98,15 @@ public class Command
                                             int amount = IntegerArgumentType.getInteger(cc, "amount");
                                             if (player != null) {
                                                 player.tokenCount -= amount;
+                                                player.sendMessage("&aYou had %tokens% tokens taken by an administrator, you now have %amount% tokens"
+                                                        .replace("%tokens%", String.valueOf(amount))
+                                                        .replace("%amount%", String.valueOf(player.tokenCount))
+                                                );
+                                                Util.send(cc.getSource(), "&eRemoved %amount% tokens from %player%, their new token balance is %balance%"
+                                                        .replace("%amount%", String.valueOf(amount))
+                                                        .replace("%player%", serverPlayer.getName().getString())
+                                                        .replace("%balance%", String.valueOf(player.tokenCount))
+                                                );
                                                 player.save();
                                             } else {
                                                 Util.send(cc.getSource(), "&cUnable to load provided pokebuilder data...");

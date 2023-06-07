@@ -345,10 +345,6 @@ public class PokeBuilder
                 });
                 break;
             }
-            case FRIENDSHIP -> {
-
-                break;
-            }
         }
 
         return buttons;
@@ -367,6 +363,7 @@ public class PokeBuilder
                     .display(getIcon(builderType))
                     .onClick(b -> {
                         this.builderType = builderType;
+                        this.amount = 0;
                         //open adaptable edit menu
                         UIManager.openUIForcefully(b.getPlayer(), this.builderType.equals(BuilderType.FRIENDSHIP) ? statAmountGUI() : editGUI());
                     })
@@ -376,6 +373,11 @@ public class PokeBuilder
         return buttons;
     }
 
+    public boolean isBlackListed(Pokemon pokemon)
+    {
+        return ArgentumPokeBuilderFabric.config.pokeBuilderDataManager.blacklistedSpecies.contains(pokemon.getSpecies().resourceIdentifier.toString());
+    }
+
     public List<Button> partyMemberButtonList()
     {
         List<Button> buttons = new ArrayList<>();
@@ -383,16 +385,26 @@ public class PokeBuilder
         try {
             PartyStore partyStore = Cobblemon.INSTANCE.getStorage().getParty(assignedPlayer.uuid);
             partyStore.forEach(pokemon -> {
-                GooeyButton button = GooeyButton.builder()
-                        .title(Util.formattedString(pokemon.getSpecies().getName()))
-                        .display(Util.returnIcon(pokemon))
-                        .lore(Util.formattedArrayList(Util.pokemonLore(pokemon)))
-                        .onClick(b -> {
-                            this.selectedPokemon = pokemon;
-                            //open builder type selection GUI
-                            UIManager.openUIForcefully(b.getPlayer(), builderTypeGUI());
-                        })
-                        .build();
+                GooeyButton button;
+                if (!isBlackListed(pokemon)) {
+
+                    button = GooeyButton.builder()
+                            .title(Util.formattedString(pokemon.getSpecies().getName()))
+                            .display(Util.returnIcon(pokemon))
+                            .lore(Util.formattedArrayList(Util.pokemonLore(pokemon)))
+                            .onClick(b -> {
+                                this.selectedPokemon = pokemon;
+                                //open builder type selection GUI
+                                UIManager.openUIForcefully(b.getPlayer(), builderTypeGUI());
+                            })
+                            .build();
+                } else {
+                    button = GooeyButton.builder()
+                            .title(Util.formattedString("&4&lBlacklisted"))
+                            .lore(Util.formattedArrayList(Arrays.asList("&c&l(&4&l!&c&l) &4You may not modify this Pokemon!")))
+                            .display(new ItemStack(Items.BARRIER))
+                            .build();
+                }
                 buttons.add(button);
             });
         } catch (NoPokemonStoreException e) {
